@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+X-Nemo-Application-Type=silica-qt5
+Icon=harbour-saillm
+Exec=harbour-saillm
+Name=SaiLLM
+
+[X-Sailjail]
+OrganizationName=io.github.roundedrectangle
+ApplicationName=saillm
+#Permissions=Internet
+Sandboxing=Disabled
