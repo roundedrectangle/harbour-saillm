@@ -6,9 +6,11 @@ right now lots of stuff is broken. ollama and openai/chatgpt backends are suppor
 
 you NEED to setup a backend for this to work
 
-open ai instructions: register as chat gpt developer and gather an api key, go to settings, set backend as openai and api key as api key. if you don't know what base url means you should not touch it probably
+## open ai instructions
 
-ollama instructions:
+register as chat gpt developer and gather an api key, go to settings, set backend as openai and api key as api key. if you don't know what base url means you should not touch it probably
+
+## ollama instructions
 
 1. download ollama to your computer with the script they provide here https://ollama.com/download
 2. run `sudo systemctl edit ollama`, or `sudo SYSTEMD_EDITOR=editor systemctl edit ollama` replacing editor with your favourite text editor
@@ -29,4 +31,21 @@ ollama instructions:
 6. open app, go to settings, set backend as ollama
 7. as host set "http://x.x.x.x:11434", replacing x.x.x.x with your computer's IP address/hostname (if you're using local IP/hostname your phone will need to be on the same network as computer)
 
-i guess that's it
+## Downloading models for Ollama
+
+By default, you will have no models in ollama. Currently you have to manually download them.
+
+To do so, run `ollama pull model`, replacing model with model name.
+
+## Recommended Ollama Models
+
+For tools, it is recommended to use `ejschwar/llama3.2-better-prompts:latest` model. It is llama3.2 with modified system prompt, with which, when tools are enabled, it can still answer questions which don't require tool interaction.
+
+## Using the App
+
+After setting up the backend, you can swipe left and right to switch between models. You can enable tools for a request by toggling the button at the bottom.
+
+## Known Issues
+
+- App will misbehave if you clear history or send new message while a request is pending
+- Sometimes app might misbehave if you switch model while a request is pending
