@@ -11,27 +11,15 @@
 <context>
     <name>Errors</name>
     <message>
-        <source>Flashlight toggler got unexpected mode data</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Flashlight toggler got no mode data</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Flashlight toggler got extra data</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Model %1 does not support tools</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Got tool arguments, which are not yet supported</source>
+        <source>Python error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Python error</source>
+        <source>Tool got invalid arguments, defaulting to empty</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
