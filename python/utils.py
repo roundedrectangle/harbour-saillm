@@ -29,26 +29,27 @@ def convert_history(history: Sequence[Union[Tuple[Union[int, Role], str], dict]]
 
     return [{'role': Role(role).name, 'content': content} for role, content in history]
 
-def convert_tool(name: str, description: str = ''):
+def convert_tool(name: str, description: str = '', parameters: Union[Dict[str, dict], None] = {}, required: Union[list, None] = []):
+    parameters, required = parameters or {}, required or None
     return {
         'type': 'function',
         'function': {
             'name': name,
             'description': description,
-            'parameters': {
-                'type': 'object',
-                'required': None,
-                'properties': {},
-            }
             # 'parameters': {
             #     'type': 'object',
-            #     'required': ['city'],
-            #     'properties': {
-            #         'city': {
-            #             'type': 'string',
-            #             'description': 'The name of the city',
-            #         }
-            #     },
+            #     'required': None,
+            #     'properties': {},
             # }
+            'parameters': {
+                'type': 'object',
+                'required': required,
+                'properties': {
+                    param: {
+                        'type': props.get('type', 'string'),
+                        'description': props.get('description', ''),
+                    } for param, props in parameters.items()
+                },
+            }
         }
     }

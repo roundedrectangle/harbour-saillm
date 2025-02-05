@@ -77,6 +77,11 @@ Page {
                             icon.source: "image://theme/icon-m-flashlight"
                             text: qsTr("Flashlight")
                         }
+                        ToolSwitch {
+                            key: 'open_website'
+                            icon.source: "image://theme/icon-m-website"
+                            text: qsTr("Website opening")
+                        }
                     }
                 }
                 ExpandingSection {
@@ -107,6 +112,13 @@ Page {
                         }
                     }
                 }
+            }
+
+            SectionHeader { text: qsTr("Other") }
+            TextSwitch {
+                text: qsTr('Show when no content was supplied when a message is available as *No content*')
+                checked: settings.noContent
+                onCheckedChanged: settings.noContent = checked
             }
 
             SectionHeader { text: qsTr("Debugging") }

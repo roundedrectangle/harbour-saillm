@@ -124,6 +124,18 @@
         <source>Custom tools</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Website opening</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Other</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show when no content was supplied when a message is available as *No content*</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>harbour-saillm</name>

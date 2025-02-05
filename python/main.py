@@ -18,6 +18,7 @@ from utils import convert_tool
 
 api: Optional[Provider] = None
 tools: List[dict] = []
+no_content: bool = False
 
 def api_required(func):
     @functools.wraps(func)
@@ -26,14 +27,14 @@ def api_required(func):
             func(*args, **kwargs)
     return f
 
-def set_settings(proxy, provider, settings: dict) -> bool:
+def set_settings(proxy, no_content, provider, settings: dict) -> bool:
     global api
     provider = ProviderMapping(provider)
     if not provider.implementation or provider.name not in settings:
         return False
     
     settings = settings[provider.name]
-    api = provider.implementation(proxy=convert_proxy(proxy), api_key=settings.pop('key', settings.pop('api_key', None)), **settings)
+    api = provider.implementation(proxy=convert_proxy(proxy), no_content=no_content, api_key=settings.pop('key', settings.pop('api_key', None)), **settings)
     return True
 
 def request_models():

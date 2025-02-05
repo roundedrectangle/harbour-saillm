@@ -5,7 +5,7 @@ from utils import Role
 __all__ = ['Provider']
 
 class Provider(ABC):
-    # When making a new provider, make sure to add **kwargs or proxy parameter
+    # When making a new provider, make sure to add **kwargs or proxy, no_content and other parameters
     @abstractmethod
     def __init__(self, **kwargs):
         ...

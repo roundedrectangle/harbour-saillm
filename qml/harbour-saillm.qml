@@ -5,7 +5,8 @@ import io.thp.pyotherside 1.5
 import Nemo.Configuration 1.0
 import Nemo.DBus 2.0
 import Nemo.Notifications 1.0
-import 'js/ToolRegistry.js' as ToolRegistry
+import 'tools/ToolRegistry.js' as ToolRegistry
+import 'tools'
 
 ApplicationWindow {
     initialPage: Component { FirstPage { } }
@@ -81,16 +82,12 @@ ApplicationWindow {
         function initialize(callback) {
             if (initialized) return
 
-            setHandler("flashlightError", function(t, e) { notifier.showError(qsTranslate("Errors", "Flashlight toggler got unexpected mode data"), "Type: %1\nReproduce: %2".arg(t).arg(e)) })
-            setHandler("flashlightNothingError", function(t, e) { notifier.showError(qsTranslate("Errors", "Flashlight toggler got no mode data")) })
-            setHandler("flashlightExtraError", function(t, e) { notifier.showError(qsTranslate("Errors", "Flashlight toggler got extra data"), e) })
             setHandler("toolsError", function(e) { notifier.showError(qsTranslate("Errors", "Model %1 does not support tools").arg(e)) })
-            setHandler('toolArguments', function(e){ notifier.showError(qsTranslate("Errors", "Got tool arguments, which are not yet supported", e)) })
-            setHandler("toggle_flashlight", flashlight.toggle)
+            setHandler('argumentsParseError', function(e){ notifier.showError(qsTranslate("Errors", "Tool got invalid arguments, defaulting to empty", e)) })
 
             addImportPath(Qt.resolvedUrl('../python'))
             importModule('main', function() {
-                call2('set_settings', [globalProxy.url, settings.provider, {
+                call2('set_settings', [globalProxy.url, settings.noContent, settings.provider, {
                                           'ollama': {'host': settings.ollamaHost},
                                           'openai': {'host': settings.openaiHost, 'key': settings.openaiHost},
                                       }], function(result) {
@@ -121,6 +118,7 @@ ApplicationWindow {
             path: "settings"
 
             property int provider: 0
+            property bool noContent
             property bool infoInNotifications: false
 
             // ollama
@@ -134,10 +132,14 @@ ApplicationWindow {
         ConfigurationGroup {
             id: toolsConfiguration
             path: "tools"
+            // Add tools here if you want them to be enabled by default. Otherwise you can skip this
 
             property bool toggle_flashlight: true
+            property bool open_website: true
         }
     }
+
+    BuiltInToolsManager { id: defaultToolManager }
 
     QtObject {
         id: shared
@@ -150,18 +152,14 @@ ApplicationWindow {
         }
 
         property var tools: []
-        property var toolComponent: Qt.createComponent('js/Tool.qml')
         function createTool() {
             console.log(JSON.stringify(tools))
             if (!toolsConfiguration.value(arguments[0])) return
-            var args = Array.prototype.slice.call(arguments)
-            args.splice(0, 0, toolComponent)
-            tools.push(ToolRegistry.createTool.apply(null, args))
+            //var args = Array.prototype.slice.call(arguments)
+            tools.push(ToolRegistry.createTool.apply(null, arguments))
             console.log(JSON.stringify(tools))
         }
 
-        Component.onCompleted: {
-            createTool('toggle_flashlight', 'Toggles flashlight', flashlight.toggle)
-        }
+        Component.onCompleted: defaultToolManager.registerTools()
     }
 }

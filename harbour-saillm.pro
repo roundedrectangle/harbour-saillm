@@ -19,8 +19,9 @@ SOURCES += src/harbour-saillm.cpp
 DISTFILES += qml/harbour-saillm.qml \
     qml/components/ToolSwitch.qml \
     qml/cover/CoverPage.qml \
-    qml/js/Tool.qml \
-    qml/js/ToolRegistry.js \
+    qml/tools/BuiltInToolsManager.qml \
+    qml/tools/Tool.qml \
+    qml/tools/ToolRegistry.js \
     qml/pages/FirstPage.qml \
     qml/pages/SettingsPage.qml \
     rpm/harbour-saillm.changes.in \
