@@ -35,12 +35,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/FirstPage.qml" line="60"/>
+        <location filename="../qml/pages/FirstPage.qml" line="101"/>
         <source>Ask me anything...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/FirstPage.qml" line="75"/>
+        <location filename="../qml/pages/FirstPage.qml" line="116"/>
         <source>Clear</source>
         <translation type="unfinished"></translation>
     </message>
@@ -121,7 +121,7 @@
     </message>
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="88"/>
-        <source>Get time</source>
+        <source>Time and date</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

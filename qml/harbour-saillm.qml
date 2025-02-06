@@ -136,7 +136,7 @@ ApplicationWindow {
 
             function setDefaultTool(tool) { if (typeof value(tool) === 'undefined') setValue(tool, true) }
 
-            Component.onCompleted: { //open_website
+            Component.onCompleted: {
                 setDefaultTool('toggle_flashlight')
                 setDefaultTool('open_website')
                 setDefaultTool('get_time')

@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import Nemo.DBus 2.0
 import Connman 0.2
+import 'ToolRegistry.js' as ToolRegistry
 
 Item {
     visible: false
@@ -35,17 +36,7 @@ Item {
         }, {'website': {'description': 'The website URL to open'}}, ['website'])
         shared.createTool('get_time', "Get current time in user's locale format\n\nReturns:\n\tstring: the current time",
                           function(args, i, returnCount) {
-                              shared.pagedViewReference.itemAt(i).chatModel.append({role: 3, content: new Date().toLocaleString()})
-                              if (returnCount > 1) { // VERY not ideal, but works for now, i guess?..
-                                  var cnt = 0
-                                  var full = shared.pagedViewReference.itemAt(i).chatModel-1
-                                  while (cnt != returnCount) {
-                                      if (shared.pagedViewReference.itemAt(i).chatModel.get(full).role === 3) cnt++
-                                      else return;
-                                      full--
-                                  }
-                              }
-                              shared.pagedViewReference.itemAt(i).generate()
+                              ToolRegistry.addToolContent(new Date().toLocaleString(), i, returnCount)
                           }, {}, [], true)
     }
 }

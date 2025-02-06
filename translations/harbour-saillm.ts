@@ -125,7 +125,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Get time</source>
+        <source>Time and date</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
