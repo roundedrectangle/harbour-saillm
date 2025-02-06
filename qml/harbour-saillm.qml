@@ -79,9 +79,10 @@ ApplicationWindow {
 
         function call2(name, args, callback) { call('main.'+name, args, callback) }
 
-        function initialize(callback) {
+        function initialize(pagedViewReference, callback) {
             if (initialized) return
 
+            shared.pagedViewReference = pagedViewReference
             setHandler("toolsError", function(e) { notifier.showError(qsTranslate("Errors", "Model %1 does not support tools").arg(e)) })
             setHandler('argumentsParseError', function(e){ notifier.showError(qsTranslate("Errors", "Tool got invalid arguments, defaulting to empty", e)) })
 
@@ -132,10 +133,14 @@ ApplicationWindow {
         ConfigurationGroup {
             id: toolsConfiguration
             path: "tools"
-            // Add tools here if you want them to be enabled by default. Otherwise you can skip this
 
-            property bool toggle_flashlight: true
-            property bool open_website: true
+            function setDefaultTool(tool) { if (typeof value(tool) === 'undefined') setValue(tool, true) }
+
+            Component.onCompleted: { //open_website
+                setDefaultTool('toggle_flashlight')
+                setDefaultTool('open_website')
+                setDefaultTool('get_time')
+            }
         }
     }
 
@@ -143,6 +148,7 @@ ApplicationWindow {
 
     QtObject {
         id: shared
+        property var pagedViewReference
 
         function listModelToJSObject(model) {
             var res = []

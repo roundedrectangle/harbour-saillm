@@ -18,6 +18,7 @@ from utils import convert_tool
 
 api: Optional[Provider] = None
 tools: List[dict] = []
+tools_meta: dict = {}
 no_content: bool = False
 
 def api_required(func):
@@ -44,13 +45,19 @@ def request_models():
         qsend('model', m)
 
 @api_required
-def chat(model, history=[], use_tools=False):
-    qsend('chat_start')
+def chat(model, model_index, chunk_index, history=[], use_tools=False):
+    qsend(f'chatStart{model}')
     try:
-        for chunk in api.chat(model, history, tools if use_tools else None):
-            qsend(f'chunk{model}', chunk)
+        for chunk, tool in api.chat(model, history, *((tools, tools_meta) if use_tools else (None,)*2), model_index=model_index):
+            if chunk is not None:
+                qsend(f'chunk{model}', chunk_index, chunk)
+            if tool is not None:
+                qsend(f'tool{model}', chunk_index, tool)
     finally:
-        qsend('chat_end')
+        qsend(f'chatEnd{model}')
 
 def register_tool(*args):
-    tools.append(convert_tool(*args))
+    global tools, tools_meta
+    tool, meta = convert_tool(*args)
+    tools.append(tool)
+    tools_meta[tool['function']['name']] = meta

@@ -124,6 +124,10 @@
         <source>Show when no content was supplied when a message is available as *No content*</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Get time</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>harbour-saillm</name>

@@ -14,6 +14,7 @@ Page {
         }
 
         PagedView {
+            id: pagedView
             anchors.fill: parent
             anchors.topMargin: Theme.paddingLarge
             model: modelsModel
@@ -21,6 +22,8 @@ Page {
             delegate: Item {
                 width: PagedView.contentWidth
                 height: PagedView.contentHeight
+                property alias chatModel: chatModel
+
                 Label {
                     text: model
                     color: Theme.highlightColor
@@ -62,10 +65,7 @@ Page {
                             enabled: !answerPending
                             onClicked: {
                                 chatModel.append({role: 0, content: askField.text})
-                                var history = shared.listModelToJSObject(chatModel)
-                                console.log(history, JSON.stringify(history))
-                                chatModel.append({role: 1, content: ''})
-                                py.call2('chat', [model, history, toolsSwitch.checked])
+                                generate()
                                 askField.text = ""
                             }
                         }
@@ -85,24 +85,37 @@ Page {
                 ListModel {
                     id: chatModel
                 }
-                property bool answerPending
+
+                function generate() {
+                    var history = shared.listModelToJSObject(chatModel)
+                    console.log(history, JSON.stringify(history))
+                    chatModel.append({role: 1, content: '', toolCalls: '[]'})
+                    py.call2('chat', [model, index, chatModel.count-1, history, toolsSwitch.checked])
+                }
 
                 Component.onCompleted: {
-                    py.setHandler('chat_start', function() {answerPending = true;console.log("chat-start")})
-                    py.setHandler('chat_end', function() {answerPending = false;console.log("chat-end")})
-                    py.setHandler('chunk'+model, function(chunk) {chatModel.get(chatModel.count-1).content += chunk; console.log(chunk);console.log(JSON.stringify(chatModel.get(chatModel.count-1)))})
+                    py.setHandler('chatStart'+model, function() {modelsModel.get(index).answerPending = true})
+                    py.setHandler('chatEnd'+model, function() {modelsModel.get(index).answerPending = false})
+                    py.setHandler('chunk'+model, function(i, chunk) {chatModel.get(i).content += chunk; console.log(chunk);console.log(JSON.stringify(chatModel.get(i)))})
+                    py.setHandler('tool'+model, function(i, tool) {
+                        var calls = JSON.parse(chatModel.get(i).toolCalls)
+                        calls.push(tool)
+                        chatModel.get(i).toolCalls = JSON.stringify(calls)
+                        console.log(chatModel.get(i).toolCalls)
+
+                        console.log(tool)
+                        console.log(JSON.stringify(chatModel.get(i)))
+                    })
                 }
             }
         }
     }
 
-    ListModel {
-        id: modelsModel
-    }
+    ListModel { id: modelsModel }
 
     Component.onCompleted: {
-        py.setHandler('model', function(model) { modelsModel.append({model: model}) })
-        py.initialize(function() {
+        py.setHandler('model', function(model) { modelsModel.append({model: model, answerPending: false}) })
+        py.initialize(pagedView, function() {
             py.call2('request_models')
         })
     }

@@ -39,7 +39,7 @@ class OpenAIProvider(Provider):
         for m in self.client.models.list():
             yield m.id
     
-    def chat(self, model, history=[], tools=[]):
+    def chat(self, model, history=[], tools=[], tools_meta={}, model_index=None):
         qsend(str(tools))
         for chunk in self.client.chat.completions.create(model=model, messages=convert_history(history), tools=tools or None, stream=True):
             chunk: ChatCompletionChunk
@@ -70,27 +70,25 @@ class OllamaProvider(Provider):
             if m.model is not None:
                 yield m.model
     
-    def chat(self, model, history=[], tools=[]):
+    def chat(self, model, history=[], tools=[], tools_meta={}, model_index=None):
+        h = convert_history(history)
         qsend(str(tools))
+        qsend(str(h))
         try:
-            for chunk in self.client.chat(model, convert_history(history), tools=tools or None, stream=True):
+            for chunk in self.client.chat(model, h, tools=tools or None, stream=True):
+                return_count = len([t for t in chunk.message.tool_calls or [] if tools_meta.get(t.function.name, default_tool_meta)['expect_return']])
+                #expect_return = return_count > 0
                 for tool in chunk.message.tool_calls or []:
-                    # if tool.function.name == 'toggle_flashlight':
-                    #     args = dict(tool.function.arguments)
-                    #     if 'mode' in args:
-                    #         toggle_flashlight(args.pop('mode'))
-                    #     else:
-                    #         qsend('flashlightNothingError')
-                    #     if args:
-                    #         qsend('flashlightExtraError', repr(args))
-                    #if tool.function.arguments:
-                    #    qsend('toolArguments', str(tool.function.arguments))
-                    qsend(f'toolcall__{tool.function.name}', tool.function.arguments or {})
+                    #meta = tools_meta.get(tool.function.name, default_tool_meta)
+                    yield None, tool.model_dump()
+                    qsend(f'toolcall__{tool.function.name}', tool.function.arguments or {}, model_index, return_count)
                 if chunk.message.content:
-                    yield chunk.message.content or ('*No content*' if self.no_content else '')
+                    yield chunk.message.content or ('*No content*' if self.no_content else ''), None
+                #if expect_return:
+                #    pass
         except ollama._types.ResponseError as e:
             if 'does not support tools' in e.error:
                 qsend("toolsError", model)
-                yield '*Tools unsupported*'
+                yield '*Tools unsupported*', None
             else:
                 raise e

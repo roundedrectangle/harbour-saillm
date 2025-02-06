@@ -17,12 +17,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/harbour-saillm.qml" line="85"/>
+        <location filename="../qml/harbour-saillm.qml" line="86"/>
         <source>Model %1 does not support tools</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/harbour-saillm.qml" line="86"/>
+        <location filename="../qml/harbour-saillm.qml" line="87"/>
         <source>Tool got invalid arguments, defaulting to empty</source>
         <translation type="unfinished"></translation>
     </message>
@@ -35,7 +35,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/FirstPage.qml" line="57"/>
+        <location filename="../qml/pages/FirstPage.qml" line="60"/>
         <source>Ask me anything...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -121,37 +121,42 @@
     </message>
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="88"/>
+        <source>Get time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SettingsPage.qml" line="93"/>
         <source>External tools</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="94"/>
-        <location filename="../qml/pages/SettingsPage.qml" line="108"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="99"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="113"/>
         <source>Not yet supported</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="102"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="107"/>
         <source>Custom tools</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="117"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="122"/>
         <source>Other</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="119"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="124"/>
         <source>Show when no content was supplied when a message is available as *No content*</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="124"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="129"/>
         <source>Debugging</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="126"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="131"/>
         <source>Show info messages in notifications</source>
         <translation type="unfinished"></translation>
     </message>
@@ -159,22 +164,22 @@
 <context>
     <name>harbour-saillm</name>
     <message>
-        <location filename="../qml/harbour-saillm.qml" line="96"/>
+        <location filename="../qml/harbour-saillm.qml" line="97"/>
         <source>failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/harbour-saillm.qml" line="99"/>
+        <location filename="../qml/harbour-saillm.qml" line="100"/>
         <source>good</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/harbour-saillm.qml" line="101"/>
+        <location filename="../qml/harbour-saillm.qml" line="102"/>
         <source>initializing tools</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/harbour-saillm.qml" line="103"/>
+        <location filename="../qml/harbour-saillm.qml" line="104"/>
         <source>hope it works</source>
         <translation type="unfinished"></translation>
     </message>

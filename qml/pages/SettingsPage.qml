@@ -10,7 +10,7 @@ Page {
             id: column
             width: parent.width
 
-            PageHeader { title: "SaiLlama" }
+            PageHeader { title: "SaiLLM" }
 
             IconComboBox {
                 label: qsTr("Provider")
@@ -81,6 +81,11 @@ Page {
                             key: 'open_website'
                             icon.source: "image://theme/icon-m-website"
                             text: qsTr("Website opening")
+                        }
+                        ToolSwitch {
+                            key: 'get_time'
+                            //icon.source: "image://theme/icon-m-website"
+                            text: qsTr("Time and date")
                         }
                     }
                 }
