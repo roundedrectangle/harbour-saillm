@@ -20,59 +20,11 @@ Page {
             }
         }
 
-        Label {
-            y: Theme.paddingLarge
-            id: modelText
-            text: !!pagedView.currentItem ? pagedView.currentItem.modelName : qsTr("Loading")
-            color: Theme.highlightColor
-            font.pixelSize: Theme.fontSizeLarge
-            width: parent.width
-            fontSizeMode: Text.Fit
-            horizontalAlignment: Text.AlignHCenter
-            minimumPixelSize: Theme.fontSizeExtraSmall
-
-            Component {
-                id: modelSelectionDialog
-                Dialog {
-                    canAccept: false
-                    DialogHeader {
-                        id: modelSelectionHeader
-                        acceptText: ""
-                    }
-                    SilicaListView {
-                        model: modelsModel
-                        width: parent.width
-                        anchors.top: modelSelectionHeader.bottom
-                        anchors.bottom: parent.bottom
-
-                        delegate: ListItem {
-                            Label {
-                                width: parent.width - 2*Theme.paddingLarge
-                                anchors.centerIn: parent
-                                truncationMode: TruncationMode.Fade
-                                text: _model
-                            }
-
-                            onClicked: {
-                                pagedView.moveTo(index)
-                                canAccept = true
-                                accept()
-                            }
-                        }
-                    }
-                }
-            }
-
-            MouseArea {
-                anchors.fill: parent
-                onClicked: pageStack.push(modelSelectionDialog)
-            }
-        }
-
         PagedView {
             id: pagedView
             anchors.fill: parent
-            anchors.topMargin: modelText.height + Theme.paddingLarge
+            //anchors.topMargin: modelLabel.height + Theme.paddingLarge
+            anchors.bottomMargin: textArea.height
             model: modelsModel
 
             delegate: Item {
@@ -82,10 +34,60 @@ Page {
                 property bool _answerPending: answerPending
                 property var modelName: _model
 
-                SilicaListView {
-                    anchors.top: parent.top
-                    anchors.bottom: parent.children[1].top
+                Label {
+                    id: modelLabel
+                    y: Theme.paddingLarge
+                    text: !!pagedView.currentItem ? pagedView.currentItem.modelName : qsTr("Loading")
+                    color: Theme.highlightColor
+                    font.pixelSize: Theme.fontSizeLarge
                     width: parent.width
+                    fontSizeMode: Text.Fit
+                    horizontalAlignment: Text.AlignHCenter
+                    minimumPixelSize: Theme.fontSizeExtraSmall
+                    height: implicitHeight + Theme.paddingLarge
+
+                    Component {
+                        id: modelSelectionDialog
+                        Dialog {
+                            canAccept: false
+                            DialogHeader {
+                                id: modelSelectionHeader
+                                acceptText: ""
+                            }
+                            SilicaListView {
+                                model: modelsModel
+                                width: parent.width
+                                anchors.top: modelSelectionHeader.bottom
+                                anchors.bottom: parent.bottom
+
+                                delegate: ListItem {
+                                    Label {
+                                        width: parent.width - 2*Theme.paddingLarge
+                                        anchors.centerIn: parent
+                                        truncationMode: TruncationMode.Fade
+                                        text: _model
+                                    }
+
+                                    onClicked: {
+                                        pagedView.moveTo(index)
+                                        canAccept = true
+                                        accept()
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: pageStack.push(modelSelectionDialog)
+                    }
+                }
+
+                SilicaListView {
+                    width: parent.width
+                    anchors.bottom: parent.bottom
+                    anchors.top: modelLabel.bottom
                     model: chatModel
                     clip: true
                     verticalLayoutDirection: ListView.BottomToTop
@@ -93,39 +95,6 @@ Page {
                     delegate: Message {
                         text: content
                         role: model.role
-                    }
-                }
-
-                Row {
-                    anchors.bottom: parent.bottom
-                    width: parent.width - Theme.paddingLarge
-                    TextArea {
-                        id: askField
-                        width: parent.width - askButton.width - toolsButton.width
-                        label: qsTr("Ask me anything...")
-
-                        hideLabelOnEmptyField: false
-                        labelVisible: false
-                    }
-                    IconButton {
-                        id: toolsButton
-                        visible: settings.manualTools
-                        icon.source: "image://theme/icon-m-game-controller"
-                        onClicked: settings.toolsSupport = !settings.toolsSupport
-                        icon.opacity: settings.toolsSupport ? 1.0 : Theme.opacityHigh
-                        width: visible ? Theme.itemSizeSmall : 0
-                        anchors.bottom: parent.bottom
-                    }
-                    IconButton {
-                        id: askButton
-                        icon.source: "image://theme/icon-m-chat"
-                        enabled: !answerPending
-                        onClicked: {
-                            chatModel.insert(0, {role: 0, content: askField.text})
-                            generate()
-                            askField.text = ""
-                        }
-                        anchors.bottom: parent.bottom
                     }
                 }
 
@@ -157,6 +126,40 @@ Page {
             }
 
             onCurrentIndexChanged: conf.lastModel = currentItem.modelName
+        }
+
+        Row {
+            id: textArea
+            anchors.bottom: parent.bottom
+            width: parent.width - Theme.paddingLarge
+            TextArea {
+                id: askField
+                width: parent.width - askButton.width - toolsButton.width
+                label: qsTr("Ask me anything...")
+
+                hideLabelOnEmptyField: false
+                labelVisible: false
+            }
+            IconButton {
+                id: toolsButton
+                visible: settings.manualTools
+                icon.source: "image://theme/icon-m-game-controller"
+                onClicked: settings.toolsSupport = !settings.toolsSupport
+                icon.opacity: settings.toolsSupport ? 1.0 : Theme.opacityHigh
+                width: visible ? Theme.itemSizeSmall : 0
+                anchors.bottom: parent.bottom
+            }
+            IconButton {
+                id: askButton
+                icon.source: "image://theme/icon-m-chat"
+                enabled: !!pagedView.currentItem && !pagedView.currentItem._answerPending
+                onClicked: {
+                    pagedView.currentItem.chatModel.insert(0, {role: 0, content: askField.text})
+                    pagedView.currentItem.generate()
+                    askField.text = ""
+                }
+                anchors.bottom: parent.bottom
+            }
         }
     }
 
