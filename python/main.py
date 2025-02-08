@@ -48,7 +48,7 @@ def request_models():
 def chat(model, model_index, chunk_index, history=[], use_tools=False):
     qsend(f'chatStart{model}')
     try:
-        for chunk, tool in api.chat(model, history, *((tools, tools_meta) if use_tools else (None,)*2), model_index=model_index):
+        for chunk, tool in api.chat(model, list(reversed(history)), *((tools, tools_meta) if use_tools else (None,)*2), model_index=model_index):
             if chunk is not None:
                 qsend(f'chunk{model}', chunk_index, chunk)
             if tool is not None:
@@ -58,6 +58,8 @@ def chat(model, model_index, chunk_index, history=[], use_tools=False):
 
 def register_tool(*args):
     global tools, tools_meta
+    if args[0] in tools_meta:
+        return # Tool already exists
     tool, meta = convert_tool(*args)
     tools.append(tool)
     tools_meta[tool['function']['name']] = meta

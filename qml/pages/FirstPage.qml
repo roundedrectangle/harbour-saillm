@@ -11,12 +11,18 @@ Page {
                 text: qsTr("Settings")
                 onClicked: pageStack.push(Qt.resolvedUrl("SettingsPage.qml"))
             }
+            MenuItem {
+                text: qsTr("Clear")
+                onClicked: pagedView.currentItem.chatModel.clear()
+                visible: !!pagedView.currentItem
+                enabled: visible && !pagedView.currentItem._answerPending && pagedView.currentItem.chatModel.count != 0
+            }
         }
 
         Label {
             y: Theme.paddingLarge
             id: modelText
-            text: pagedView.currentItem.getModel()
+            text: !!pagedView.currentItem ? pagedView.currentItem.getModel() : qsTr("Loading")
             color: Theme.highlightColor
             font.pixelSize: Theme.fontSizeLarge
             width: parent.width
@@ -30,7 +36,7 @@ Page {
                     canAccept: false
                     DialogHeader {
                         id: modelSelectionHeader
-                        acceptTextVisible: false
+                        acceptText: ""
                     }
                     SilicaListView {
                         model: modelsModel
@@ -72,6 +78,7 @@ Page {
                 width: PagedView.contentWidth
                 height: PagedView.contentHeight
                 property alias chatModel: chatModel
+                property bool _answerPending: answerPending
 
                 function getModel() {return _model}
 
@@ -81,12 +88,14 @@ Page {
                     width: parent.width
                     model: chatModel
                     clip: true
+                    verticalLayoutDirection: ListView.BottomToTop
 
                     delegate: Label {
                         width: parent.width
                         text: content
                         wrapMode: Text.Wrap
                         horizontalAlignment: role == 0 ? Text.AlignRight : (role == 1 ? Text.AlignLeft : Text.AlignHCenter)
+                        visible: !settings.hideSystem || role == 0 || role == 1
                     }
                 }
 
@@ -95,30 +104,33 @@ Page {
                     width: parent.width
                     Row {
                         width: parent.width - Theme.paddingLarge
-                        TextField {
+                        TextArea {
                             id: askField
-                            width: parent.width - askButton.width
+                            width: parent.width - askButton.width - toolsButton.width
                             label: qsTr("Ask me anything...")
+
+                            hideLabelOnEmptyField: false
+                            labelVisible: false
+                        }
+                        IconButton {
+                            id: toolsButton
+                            visible: settings.manualTools
+                            icon.source: "image://theme/icon-m-game-controller"
+                            onClicked: settings.toolsSupport = !settings.toolsSupport
+                            icon.opacity: settings.toolsSupport ? 1.0 : Theme.opacityHigh
+                            width: visible ? Theme.itemSizeSmall : 0
+                            anchors.bottom: parent.bottom
                         }
                         IconButton {
                             id: askButton
                             icon.source: "image://theme/icon-m-chat"
                             enabled: !answerPending
                             onClicked: {
-                                chatModel.append({role: 0, content: askField.text})
+                                chatModel.insert(0, {role: 0, content: askField.text})
                                 generate()
                                 askField.text = ""
                             }
-                        }
-                    }
-                    Row {
-                        Button {
-                            text: qsTr("Clear")
-                            onClicked: chatModel.clear()
-                        }
-                        Switch {
-                            id: toolsSwitch
-                            icon.source: "image://theme/icon-m-attach"
+                            anchors.bottom: parent.bottom
                         }
                     }
                 }
@@ -130,22 +142,22 @@ Page {
                 function generate() {
                     var history = shared.listModelToJSObject(chatModel)
                     console.log(history, JSON.stringify(history))
-                    chatModel.append({role: 1, content: '', toolCalls: '[]'})
-                    py.call2('chat', [_model, index, chatModel.count-1, history, toolsSwitch.checked])
+                    chatModel.insert(0, {role: 1, content: '', toolCalls: '[]'})
+                    py.call2('chat', [_model, index, chatModel.count, history, settings.toolsSupport])
                 }
 
                 Component.onCompleted: {
                     py.setHandler('chatStart'+_model, function() {modelsModel.get(index).answerPending = true})
                     py.setHandler('chatEnd'+_model, function() {modelsModel.get(index).answerPending = false})
-                    py.setHandler('chunk'+_model, function(i, chunk) {chatModel.get(i).content += chunk; console.log(chunk);console.log(JSON.stringify(chatModel.get(i)))})
+                    py.setHandler('chunk'+_model, function(i, chunk) {chatModel.get(chatModel.count-i).content += chunk; console.log(chunk);console.log(JSON.stringify(chatModel.get(chatModel.count-i)))})
                     py.setHandler('tool'+_model, function(i, tool) {
-                        var calls = JSON.parse(chatModel.get(i).toolCalls)
+                        var calls = JSON.parse(chatModel.get(chatModel.count-i).toolCalls)
                         calls.push(tool)
-                        chatModel.get(i).toolCalls = JSON.stringify(calls)
-                        console.log(chatModel.get(i).toolCalls)
+                        chatModel.get(chatModel.count-i).toolCalls = JSON.stringify(calls)
+                        console.log(chatModel.get(chatModel.count-i).toolCalls)
 
                         console.log(tool)
-                        console.log(JSON.stringify(chatModel.get(i)))
+                        console.log(JSON.stringify(chatModel.get(chatModel.count-i)))
                     })
                 }
             }

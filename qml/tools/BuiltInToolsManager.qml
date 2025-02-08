@@ -34,7 +34,7 @@ Item {
         shared.createTool('open_website', 'Opens the specified website in the web browser', function(args) {
             if (typeof args.website != 'undefined') Qt.openUrlExternally(args.website)
         }, {'website': {'description': 'The website URL to open'}}, ['website'])
-        shared.createTool('get_time', "Get current time in user's locale format\n\nReturns:\n\tstring: the current time",
+        shared.createTool('get_datetime', "Get current time in user's locale format\n\nReturns:\n\tstring: the current time",
                           function(args, i, returnCount) {
                               ToolRegistry.addToolContent(new Date().toLocaleString(), i, returnCount)
                           }, {}, [], true)

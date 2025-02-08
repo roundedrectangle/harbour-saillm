@@ -9,18 +9,20 @@ function registerTools(tools) {
 }
 
 function addToolContent(content, i, returnCount, generateAtEnd) {
-    shared.pagedViewReference.itemAt(i).chatModel.append({role: 3, content: content})
+    shared.pagedViewReference.itemAt(i).chatModel.insert(0, {role: 3, content: content})
     if (returnCount > 1) { // VERY not ideal, but works for now, i guess?..
         var cnt = 0
-        var full = shared.pagedViewReference.itemAt(i).chatModel-1
+        var full = shared.pagedViewReference.itemAt(i).chatModel.count
         while (cnt != returnCount) {
-            if (shared.pagedViewReference.itemAt(i).chatModel.get(full).role === 3) cnt++
+            console.log(shared.pagedViewReference.itemAt(i).chatModel.count-full)
+            if (shared.pagedViewReference.itemAt(i).chatModel.get(shared.pagedViewReference.itemAt(i).chatModel.count-full).role === 3) cnt++
             else return;
             full--
         }
     }
-    if (typeof generateAtEnd == 'undefined' ? true : generateAtEnd)
+    if (typeof generateAtEnd == 'undefined' ? true : generateAtEnd) {
         shared.pagedViewReference.itemAt(i).generate()
+    }
 }
 
 function createTool(name, description, trigger, parameters, req, expectReturn) {
@@ -30,7 +32,7 @@ function createTool(name, description, trigger, parameters, req, expectReturn) {
         'trigger': function(args, i, returnCount) {
             trigger.apply(null, arguments)
             if (typeof expectReturn === 'undefined')
-                addToolContent('success for '+name, i, returnCount, false)
+                addToolContent('success for '+name, i, returnCount, settings.generateAfterBasicToolCall)
         },
         'parameters': typeof parameters === 'undefined' ? {} : parameters, // name: {'type': type, 'description': description}
         'required': typeof req === 'undefined' ? [] : req, // names of required parameters

@@ -93,15 +93,11 @@ ApplicationWindow {
                                           'openai': {'host': settings.openaiHost, 'key': settings.openaiHost},
                                       }], function(result) {
                                         if (!result) {
-                                            // todo: show that everything is broken
-                                            notifier.showInfo(qsTr("failed"))
+                                            notifier.showError(qsTr("something went wrong..."))
                                             return
                                         }
-                                        notifier.showInfo(qsTr("good"))
-
-                                        notifier.showInfo(qsTr("initializing tools"))
+                                        notifier.showInfo(qsTr("settings loaded, initializing tools"))
                                         ToolRegistry.registerTools(shared.tools)
-                                        notifier.showInfo(qsTr("hope it works"))
 
                                         callback()
                                         initialized = true
@@ -120,14 +116,18 @@ ApplicationWindow {
 
             property int provider: 0
             property bool noContent
-            property bool infoInNotifications: false
+            property bool infoInNotifications
+            property bool manualTools: true
+            property bool toolsSupport: true
+            property bool generateAfterBasicToolCall
+            property bool hideSystem: true
 
             // ollama
-            property string ollamaHost: ''
+            property string ollamaHost
 
             // openai
-            property string openaiHost: ''
-            property string openaiKey: ''
+            property string openaiHost
+            property string openaiKey
         }
 
         ConfigurationGroup {
@@ -139,7 +139,7 @@ ApplicationWindow {
             Component.onCompleted: {
                 setDefaultTool('toggle_flashlight')
                 setDefaultTool('open_website')
-                setDefaultTool('get_time')
+                setDefaultTool('get_datetime')
             }
         }
     }

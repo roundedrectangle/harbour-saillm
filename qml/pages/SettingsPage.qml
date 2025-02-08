@@ -10,7 +10,7 @@ Page {
             id: column
             width: parent.width
 
-            PageHeader { title: "SaiLLM" }
+            PageHeader { title: qsTr("Settings") }
 
             IconComboBox {
                 label: qsTr("Provider")
@@ -68,6 +68,22 @@ Page {
                 color: Theme.secondaryHighlightColor
                 bottomPadding: Theme.paddingMedium
             }
+            ComboBox {
+                label: qsTr("Tools support")
+                description: qsTr("Some providers and models don't support streaming when tools are enabled")
+                menu: ContextMenu {
+                    MenuItem { text: qsTr("Enabled") }
+                    MenuItem { text: qsTr("Disabled") }
+                }
+                currentIndex: settings.toolsSupport ? 0 : 1
+                onCurrentIndexChanged: settings.toolsSupport = currentIndex == 0
+            }
+            TextSwitch {
+                text: qsTr("Show quick toggle")
+                checked: settings.manualTools
+                onCheckedChanged: settings.manualTools = checked
+            }
+
             ExpandingSectionGroup {
                 ExpandingSection {
                     title: qsTr("Default tools")
@@ -82,10 +98,11 @@ Page {
                             icon.source: "image://theme/icon-m-website"
                             text: qsTr("Website opening")
                         }
+                        SectionHeader { text: qsTr("Info tools") }
                         ToolSwitch {
-                            key: 'get_time'
+                            key: 'get_datetime'
                             //icon.source: "image://theme/icon-m-website"
-                            text: qsTr("Time and date")
+                            text: qsTr("Time and date access")
                         }
                     }
                 }
@@ -124,6 +141,16 @@ Page {
                 text: qsTr('Show when no content was supplied when a message is available as *No content*')
                 checked: settings.noContent
                 onCheckedChanged: settings.noContent = checked
+            }
+            TextSwitch {
+                text: qsTr("Continue generation after non-info tool call")
+                checked: settings.generateAfterBasicToolCall
+                onCheckedChanged: settings.generateAfterBasicToolCall = checked
+            }
+            TextSwitch {
+                text: qsTr("Hide system and tool messages")
+                checked: settings.hideSystem
+                onCheckedChanged: settings.hideSystem = checked
             }
 
             SectionHeader { text: qsTr("Debugging") }

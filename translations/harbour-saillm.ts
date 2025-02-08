@@ -128,6 +128,26 @@
         <source>Time and date</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Tools support</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Some providers and models don&apos;t support streaming when tools are enabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Manual</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>harbour-saillm</name>
