@@ -89,7 +89,7 @@ Page {
                     anchors.bottom: parent.bottom
                     anchors.top: modelLabel.bottom
                     model: chatModel
-                    //clip: true
+                    clip: true
                     verticalLayoutDirection: ListView.BottomToTop
 
                     delegate: Message {
