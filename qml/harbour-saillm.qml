@@ -109,6 +109,7 @@ ApplicationWindow {
     ConfigurationGroup {
         id: conf
         path: '/apps/harbour-saillm'
+        property string lastModel
 
         ConfigurationGroup {
             id: settings

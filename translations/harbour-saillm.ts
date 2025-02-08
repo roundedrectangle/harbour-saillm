@@ -37,6 +37,10 @@
         <source>Clear</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Loading</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SettingsPage</name>
@@ -125,10 +129,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Time and date</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Tools support</source>
         <translation type="unfinished"></translation>
     </message>
@@ -145,26 +145,38 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Manual</source>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show quick toggle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Info tools</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Time and date access</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Continue generation after non-info tool call</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hide system and tool messages</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>harbour-saillm</name>
     <message>
-        <source>failed</source>
+        <source>something went wrong...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>good</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>initializing tools</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>hope it works</source>
+        <source>settings loaded, initializing tools</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

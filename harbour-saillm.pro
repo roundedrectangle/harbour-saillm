@@ -17,6 +17,8 @@ CONFIG += sailfishapp
 SOURCES += src/harbour-saillm.cpp
 
 DISTFILES += qml/harbour-saillm.qml \
+    qml/components/Message.qml \
+    qml/components/RoundedRect.qml \
     qml/components/ToolSwitch.qml \
     qml/cover/CoverPage.qml \
     qml/tools/BuiltInToolsManager.qml \

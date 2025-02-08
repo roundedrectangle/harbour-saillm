@@ -49,3 +49,7 @@ After setting up the backend, you can swipe left and right to switch between mod
 
 - App will misbehave if you clear history or send new message while a request is pending
 - Sometimes app might misbehave if you switch model while a request is pending
+
+## Credits
+
+- Whisperfish/Jolla Messages: messages background

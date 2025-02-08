@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import '../components'
 
 Page {
     allowedOrientations: Orientation.All
@@ -22,7 +23,7 @@ Page {
         Label {
             y: Theme.paddingLarge
             id: modelText
-            text: !!pagedView.currentItem ? pagedView.currentItem.getModel() : qsTr("Loading")
+            text: !!pagedView.currentItem ? pagedView.currentItem.modelName : qsTr("Loading")
             color: Theme.highlightColor
             font.pixelSize: Theme.fontSizeLarge
             width: parent.width
@@ -79,8 +80,7 @@ Page {
                 height: PagedView.contentHeight
                 property alias chatModel: chatModel
                 property bool _answerPending: answerPending
-
-                function getModel() {return _model}
+                property var modelName: _model
 
                 SilicaListView {
                     anchors.top: parent.top
@@ -90,48 +90,42 @@ Page {
                     clip: true
                     verticalLayoutDirection: ListView.BottomToTop
 
-                    delegate: Label {
-                        width: parent.width
+                    delegate: Message {
                         text: content
-                        wrapMode: Text.Wrap
-                        horizontalAlignment: role == 0 ? Text.AlignRight : (role == 1 ? Text.AlignLeft : Text.AlignHCenter)
-                        visible: !settings.hideSystem || role == 0 || role == 1
+                        role: model.role
                     }
                 }
 
-                Column {
+                Row {
                     anchors.bottom: parent.bottom
-                    width: parent.width
-                    Row {
-                        width: parent.width - Theme.paddingLarge
-                        TextArea {
-                            id: askField
-                            width: parent.width - askButton.width - toolsButton.width
-                            label: qsTr("Ask me anything...")
+                    width: parent.width - Theme.paddingLarge
+                    TextArea {
+                        id: askField
+                        width: parent.width - askButton.width - toolsButton.width
+                        label: qsTr("Ask me anything...")
 
-                            hideLabelOnEmptyField: false
-                            labelVisible: false
+                        hideLabelOnEmptyField: false
+                        labelVisible: false
+                    }
+                    IconButton {
+                        id: toolsButton
+                        visible: settings.manualTools
+                        icon.source: "image://theme/icon-m-game-controller"
+                        onClicked: settings.toolsSupport = !settings.toolsSupport
+                        icon.opacity: settings.toolsSupport ? 1.0 : Theme.opacityHigh
+                        width: visible ? Theme.itemSizeSmall : 0
+                        anchors.bottom: parent.bottom
+                    }
+                    IconButton {
+                        id: askButton
+                        icon.source: "image://theme/icon-m-chat"
+                        enabled: !answerPending
+                        onClicked: {
+                            chatModel.insert(0, {role: 0, content: askField.text})
+                            generate()
+                            askField.text = ""
                         }
-                        IconButton {
-                            id: toolsButton
-                            visible: settings.manualTools
-                            icon.source: "image://theme/icon-m-game-controller"
-                            onClicked: settings.toolsSupport = !settings.toolsSupport
-                            icon.opacity: settings.toolsSupport ? 1.0 : Theme.opacityHigh
-                            width: visible ? Theme.itemSizeSmall : 0
-                            anchors.bottom: parent.bottom
-                        }
-                        IconButton {
-                            id: askButton
-                            icon.source: "image://theme/icon-m-chat"
-                            enabled: !answerPending
-                            onClicked: {
-                                chatModel.insert(0, {role: 0, content: askField.text})
-                                generate()
-                                askField.text = ""
-                            }
-                            anchors.bottom: parent.bottom
-                        }
+                        anchors.bottom: parent.bottom
                     }
                 }
 
@@ -149,7 +143,7 @@ Page {
                 Component.onCompleted: {
                     py.setHandler('chatStart'+_model, function() {modelsModel.get(index).answerPending = true})
                     py.setHandler('chatEnd'+_model, function() {modelsModel.get(index).answerPending = false})
-                    py.setHandler('chunk'+_model, function(i, chunk) {chatModel.get(chatModel.count-i).content += chunk; console.log(chunk);console.log(JSON.stringify(chatModel.get(chatModel.count-i)))})
+                    py.setHandler('chunk'+_model, function(i, chunk) {chatModel.get(chatModel.count-i).content += chunk})//; console.log(chunk);console.log(JSON.stringify(chatModel.get(chatModel.count-i)))})
                     py.setHandler('tool'+_model, function(i, tool) {
                         var calls = JSON.parse(chatModel.get(chatModel.count-i).toolCalls)
                         calls.push(tool)
@@ -161,13 +155,18 @@ Page {
                     })
                 }
             }
+
+            onCurrentIndexChanged: conf.lastModel = currentItem.modelName
         }
     }
 
     ListModel { id: modelsModel }
 
     Component.onCompleted: {
-        py.setHandler('model', function(model) { modelsModel.append({_model: model, answerPending: false}) })
+        py.setHandler('model', function(model) {
+            modelsModel.append({_model: model, answerPending: false})
+            if (conf.lastModel == model) pagedView.moveTo(modelsModel.count-1)
+        })
         py.initialize(pagedView, function() {
             py.call2('request_models')
         })
