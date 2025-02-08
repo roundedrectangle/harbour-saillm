@@ -6,7 +6,9 @@ ListItem {
     property bool isOutbound
     property alias text: label.text
     property int role
-    contentHeight: container.height
+
+    contentHeight: visible ? topLevelContainer.height : 0
+    visible: (text.length > 0 || !settings.hideEmpty) && (!settings.hideSystem || role == 0 || role == 1)
 
     Item {
         id: topLevelContainer
@@ -19,7 +21,11 @@ ListItem {
             id: background
             radius: Theme.paddingLarge
             anchors { fill: container; margins: 2*Theme.paddingMedium/3 }
-            roundedCorners: isOutbound ? bottomLeft | topRight : bottomRight | topLeft
+            roundedCorners: switch(role) {
+                            case 1: return bottomRight | topLeft
+                            case 0: return bottomLeft | topRight
+                            default: return allCorners
+                            }
             color: down ? Theme.highlightBackgroundColor : Theme.secondaryColor
             opacity: down ?
                          (isOutbound ? 0.7*Theme.opacityFaint : 1.0*Theme.opacityFaint) :
@@ -28,18 +34,18 @@ ListItem {
 
         Item {
             id: container
-            width: Math.min(parent.width, Math.max(label.implicitWidth, Theme.itemSizeSmall)+2*label.x+2*Theme.paddingMedium)
+            width: Math.min(parent.width, label.implicitWidth+2*(label.x/2)+2*Theme.paddingMedium)
             height: label.height + 2*Theme.paddingMedium
             anchors.right: role == 0 ? parent.right : undefined
             anchors.horizontalCenter: (role != 0 && role != 1) ? parent.horizontalCenter : undefined
             Label {
                 id: label
-                x: Theme.paddingMedium
+                x: 2*Theme.paddingMedium
                 y: x
                 width: parent.width - 2*x
                 wrapMode: Text.Wrap
-                visible: !settings.hideSystem || role == 0 || role == 1
-                height: implicitHeight + 2*y
+                height: implicitHeight + y
+                horizontalAlignment: role == 0 ? Text.AlignRight : (role == 1 ? Text.AlignLeft : Text.AlignHCenter)
             }
         }
     }

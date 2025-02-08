@@ -152,6 +152,11 @@ Page {
                 checked: settings.hideSystem
                 onCheckedChanged: settings.hideSystem = checked
             }
+            TextSwitch {
+                text: qsTr("Hide empty messages")
+                checked: settings.hideEmpty
+                onCheckedChanged: settings.hideEmpty = checked
+            }
 
             SectionHeader { text: qsTr("Debugging") }
             TextSwitch {

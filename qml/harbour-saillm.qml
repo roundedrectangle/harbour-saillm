@@ -121,7 +121,8 @@ ApplicationWindow {
             property bool manualTools: true
             property bool toolsSupport: true
             property bool generateAfterBasicToolCall
-            property bool hideSystem: true
+            property bool hideSystem
+            property bool hideEmpty: true
 
             // ollama
             property string ollamaHost
