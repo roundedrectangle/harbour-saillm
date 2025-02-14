@@ -43,6 +43,13 @@
     </message>
 </context>
 <context>
+    <name>Message</name>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>SettingsPage</name>
     <message>
         <source>Provider</source>
@@ -166,6 +173,14 @@
     </message>
     <message>
         <source>Hide system and tool messages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>WLAN</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hide empty messages</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

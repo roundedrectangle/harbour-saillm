@@ -72,8 +72,6 @@ class OllamaProvider(Provider):
     
     def chat(self, model, history=[], tools=[], tools_meta={}, model_index=None):
         h = convert_history(history)
-        qsend(str(tools))
-        qsend(str(h))
         try:
             for chunk in self.client.chat(model, h, tools=tools or None, stream=True):
                 return_count = len([t for t in chunk.message.tool_calls or [] if tools_meta.get(t.function.name, default_tool_meta)['expect_return']])

@@ -161,11 +161,11 @@ ApplicationWindow {
 
         property var tools: []
         function createTool() {
-            console.log(JSON.stringify(tools))
+            //console.log(JSON.stringify(tools))
             if (!toolsConfiguration.value(arguments[0])) return
             //var args = Array.prototype.slice.call(arguments)
             tools.push(ToolRegistry.createTool.apply(null, arguments))
-            console.log(JSON.stringify(tools))
+            //console.log(JSON.stringify(tools))
         }
 
         Component.onCompleted: defaultToolManager.registerTools()

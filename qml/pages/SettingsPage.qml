@@ -98,6 +98,10 @@ Page {
                             icon.source: "image://theme/icon-m-website"
                             text: qsTr("Website opening")
                         }
+                        /*ToolSwitch {
+                            key: 'toggle_wlan'
+                            text: qsTr("WLAN")
+                        }*/
                         SectionHeader { text: qsTr("Info tools") }
                         ToolSwitch {
                             key: 'get_datetime'
