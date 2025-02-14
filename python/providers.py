@@ -40,10 +40,10 @@ class OpenAIProvider(Provider):
             yield m.id
     
     def chat(self, model, history=[], tools=[], tools_meta={}, model_index=None):
-        qsend(str(tools))
         for chunk in self.client.chat.completions.create(model=model, messages=convert_history(history), tools=tools or None, stream=True):
             chunk: ChatCompletionChunk
             d = chunk.choices[0].delta
+            return_count = len([t for t in d.tool_calls or [] if tools_meta.get(t.function.name, default_tool_meta)['expect_return']])
             for tool in d.tool_calls or []:
                 if tool.function:
                     args = {}
@@ -51,8 +51,9 @@ class OpenAIProvider(Provider):
                         #qsend('toolArguments', str(tool.function.arguments))
                         try: args = json.loads(tool.function.arguments)
                         except: qsend('argumentsParseError', str(tool.function.arguments))
-                    qsend(f'toolcall__{tool.function.name}', args)
-            yield d.content or ('*No content*' if self.no_content else '')
+                    yield None, tool.model_dump()
+                    qsend(f'toolcall__{tool.function.name}', args, model_index, return_count)
+            yield d.content or ('*No content*' if self.no_content else ''), None
 
 class OllamaProvider(Provider):
     def __init__(self, **kwargs):
