@@ -4,7 +4,7 @@
 Name:       harbour-saillm
 
 Summary:    Sailfish Ollama client
-Version:    0.1
+Version:    0.1a2
 Release:    1
 License:    LICENSE
 URL:        http://example.org/

@@ -14,17 +14,17 @@
     <message>
         <location filename="../qml/harbour-saillm.qml" line="77"/>
         <source>Python error</source>
-        <translation type="unfinished"></translation>
+        <translation>Ошибка Python</translation>
     </message>
     <message>
         <location filename="../qml/harbour-saillm.qml" line="86"/>
         <source>Model %1 does not support tools</source>
-        <translation type="unfinished"></translation>
+        <translation>Модель %1 не поддерживает утилиты</translation>
     </message>
     <message>
         <location filename="../qml/harbour-saillm.qml" line="87"/>
         <source>Tool got invalid arguments, defaulting to empty</source>
-        <translation type="unfinished"></translation>
+        <translation>Утилита получила неправильные аргументы, установлены пустые</translation>
     </message>
 </context>
 <context>
@@ -32,22 +32,22 @@
     <message>
         <location filename="../qml/pages/FirstPage.qml" line="12"/>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройки</translation>
     </message>
     <message>
         <location filename="../qml/pages/FirstPage.qml" line="40"/>
         <source>Loading</source>
-        <translation type="unfinished"></translation>
+        <translation>Загрузка</translation>
     </message>
     <message>
         <location filename="../qml/pages/FirstPage.qml" line="138"/>
         <source>Ask me anything...</source>
-        <translation type="unfinished"></translation>
+        <translation>Спроси меня о чём угодно...</translation>
     </message>
     <message>
         <location filename="../qml/pages/FirstPage.qml" line="16"/>
         <source>Clear</source>
-        <translation type="unfinished"></translation>
+        <translation>Очистить</translation>
     </message>
 </context>
 <context>
@@ -55,7 +55,7 @@
     <message>
         <location filename="../qml/components/Message.qml" line="78"/>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Скопировать</translation>
     </message>
 </context>
 <context>
@@ -63,22 +63,22 @@
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="13"/>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройки</translation>
     </message>
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="16"/>
         <source>Provider</source>
-        <translation type="unfinished"></translation>
+        <translation>Провайдер</translation>
     </message>
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="17"/>
         <source>OpenAI might be broken</source>
-        <translation type="unfinished"></translation>
+        <translation>OpenAI может не работать</translation>
     </message>
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="22"/>
         <source>Unset</source>
-        <translation type="unfinished"></translation>
+        <translation>Не выбрано</translation>
     </message>
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="24"/>
@@ -95,108 +95,103 @@
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="38"/>
         <source>API key</source>
-        <translation type="unfinished"></translation>
+        <translation>Ключ API</translation>
     </message>
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="43"/>
         <source>Base URL</source>
-        <translation type="unfinished"></translation>
+        <translation>Начальный URL</translation>
     </message>
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="44"/>
         <source>Should be left empty in most cases</source>
-        <translation type="unfinished"></translation>
+        <translation>Обычно пустой</translation>
     </message>
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="55"/>
         <source>Host</source>
-        <translation type="unfinished"></translation>
+        <translation>Хост</translation>
     </message>
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="61"/>
         <source>Tools</source>
-        <translation type="unfinished"></translation>
+        <translation>Утилиты</translation>
     </message>
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="66"/>
         <source>Applying tools settings requires app restart</source>
-        <translation type="unfinished"></translation>
+        <translation>Для применения настроек утилит, перезапустите приложение</translation>
     </message>
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="72"/>
         <source>Tools support</source>
-        <translation type="unfinished"></translation>
+        <translation>Поддержка утилит</translation>
     </message>
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="73"/>
         <source>Some providers and models don&apos;t support streaming when tools are enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Некоторые провайдеры и модели не поддерживают стриминг, когда утилиты включены</translation>
     </message>
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="75"/>
         <source>Enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Включена</translation>
     </message>
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="76"/>
         <source>Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Выключена</translation>
     </message>
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="82"/>
         <source>Show quick toggle</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="103"/>
-        <source>WLAN</source>
-        <translation type="unfinished"></translation>
+        <translation>Показывать быстрый переключатель</translation>
     </message>
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="105"/>
         <source>Info tools</source>
-        <translation type="unfinished"></translation>
+        <translation>Информационные утилиты</translation>
     </message>
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="109"/>
         <source>Time and date access</source>
-        <translation type="unfinished"></translation>
+        <translation>Доступ к времени и дате</translation>
     </message>
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="89"/>
         <source>Default tools</source>
-        <translation type="unfinished"></translation>
+        <translation>Стандартные утилиты</translation>
     </message>
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="94"/>
         <source>Flashlight</source>
-        <translation type="unfinished"></translation>
+        <translation>Фонарик</translation>
     </message>
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="99"/>
         <source>Website opening</source>
-        <translation type="unfinished"></translation>
+        <translation>Открытие сайтов</translation>
     </message>
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="114"/>
         <source>External tools</source>
-        <translation type="unfinished"></translation>
+        <translation>Утилиты сторонних разработчиков</translation>
     </message>
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="120"/>
         <location filename="../qml/pages/SettingsPage.qml" line="134"/>
         <source>Not yet supported</source>
-        <translation type="unfinished"></translation>
+        <translation>Ещё не поддерживаются</translation>
     </message>
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="128"/>
         <source>Custom tools</source>
-        <translation type="unfinished"></translation>
+        <translation>Кастомные утилиты</translation>
     </message>
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="143"/>
         <source>Other</source>
-        <translation type="unfinished"></translation>
+        <translation>Другое</translation>
     </message>
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="145"/>

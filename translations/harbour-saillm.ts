@@ -176,10 +176,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>WLAN</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Hide empty messages</source>
         <translation type="unfinished"></translation>
     </message>
